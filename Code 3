@@ -1,0 +1,11 @@
+function ethToToken(uint256 minTokens, uint256 deadline, address payable _uni) external restricted {
+    Uniswap uni = Uniswap(_uni);
+    uint256 ethBalance = address(this).balance;
+    uint256 tokensBoughtActual = uni.ethToTokenSwapInput.value(ethBalance)({ min_tokens: minTokens, deadline: deadline });
+    emit UniswapTokenBoughtActual(tokensBoughtActual);
+}
+
+function tokenToEth(uint256 tokensToSell, uint256 minEth, uint256 deadline, address payable _uni) external restricted {
+    Uniswap uni = Uniswap(_uni);
+    uint256 actualEthBought = uni.tokenToEthSwapInput({ tokens_sold: tokensToSell, min_eth: minEth, deadline: deadline });
+    emit UniswapEthBoughtActual(actualEthBought);
